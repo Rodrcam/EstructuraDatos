@@ -1,9 +1,9 @@
-import time  # Import the time library to measure execution 
+import time                                                                                                                               # Importar la biblioteca time para medir la ejecución
 
 class Stack:
-    def __init__(self,maxSize):
+    def __init__(self, maxSize):
         self.__maxSize = maxSize
-        self.__stack = [None]*maxSize
+        self.__stack = [None] * maxSize
         self.__nItems = 0
         self.__ptr = -1
     
@@ -17,7 +17,7 @@ class Stack:
         return self.__nItems
     
     def push(self, element):
-        if (self.isFull()):
+        if self.isFull():
             raise Exception("Stack overflow")
         self.__ptr += 1
         self.__stack[self.__ptr] = element
@@ -25,7 +25,7 @@ class Stack:
         return f"Element: {element} push"
     
     def pop(self):
-        if (self.isEmpty()): 
+        if self.isEmpty():
             raise Exception("Stack underflow")
         elementPopped = self.__stack[self.__ptr]
         self.__stack[self.__ptr] = None
@@ -48,35 +48,35 @@ class Stack:
 def identity(x): return x
 
 class Queue(object):
-    def __init__(self, size):  # Constructor
-        self.__maxSize = size  # Size of [circular] array
-        self.__que = [None] * size  # Queue stored as a list
-        self.__front = 1  # Empty Queue has front 1
-        self.__rear = 0  # After rear and
-        self.__nItems = 0  # No items in queue
+    def __init__(self, size):                                                                                                               # Constructor
+        self.__maxSize = size                                                                                                               # Tamaño del arreglo [circular]
+        self.__que = [None] * size                                                                                                          # Cola almacenada como una lista
+        self.__front = 1                                                                                                                    # La cola vacía tiene frente en 1
+        self.__rear = 0                                                                                                                     # Después de rear y
+        self.__nItems = 0                                                                                                                   # No hay elementos en la cola
 
-    def insert(self, item):  # Insert item at rear of queue
-        if self.isFull():  # If not full
+    def insert(self, item):                                                                                                                 # Insertar elemento al final de la cola
+        if self.isFull():                                                                                                                   # Si no está llena
             raise Exception("Queue overflow")
-        self.__rear += 1  # Rear moves one to the right
-        if self.__rear == self.__maxSize:  # Wrap around circular array
+        self.__rear += 1                                                                                                                    # Rear se mueve uno a la derecha
+        if self.__rear == self.__maxSize:                                                                                                   # Se ajusta al arreglo circular
             self.__rear = 0
-        self.__que[self.__rear] = item  # Store item at rear
+        self.__que[self.__rear] = item                                                                                                      # Almacenar elemento en rear
         self.__nItems += 1
         return True
 
-    def remove(self):  # Remove front item of queue
-        if self.isEmpty():  # And return it, if not empty
+    def remove(self):                                                                                                                       # Remover elemento del frente de la cola
+        if self.isEmpty():                                                                                                                  # Y devolverlo, si no está vacía
             raise Exception("Queue underflow")
-        front = self.__que[self.__front]  # Get the value at front
-        self.__que[self.__front] = None  # Remove item reference
-        self.__front += 1  # Front moves one to the right
-        if self.__front == self.__maxSize:  # Wrap around circular array
+        front = self.__que[self.__front]                                                                                                    # Obtener el valor en frente
+        self.__que[self.__front] = None                                                                                                     # Eliminar referencia del elemento
+        self.__front += 1                                                                                                                   # Frente se mueve uno a la derecha
+        if self.__front == self.__maxSize:                                                                                                  # Se ajusta al arreglo circular
             self.__front = 0
         self.__nItems -= 1
         return front
 
-    def peek(self):  # Return frontmost item
+    def peek(self):                                                                                                                         # Devolver el elemento más frontal
         return None if self.isEmpty() else self.__que[self.__front]
 
     def isEmpty(self):
@@ -88,172 +88,171 @@ class Queue(object):
     def __len__(self):
         return self.__nItems
 
-    def __str__(self):  # Convert queue to string
-        ans = "["  # Start with left bracket
-        for i in range(self.__nItems):  # Loop through current items
-            if len(ans) > 1:  # Except next to left bracket,
-                ans += ", "  # Separate items with comma
-            j = i + self.__front  # Offset from front
-            if j >= self.__maxSize:  # Wrap around circular array
+    def __str__(self):                                                                                                                      # Convertir cola a cadena
+        ans = "["                                                                                                                           # Comienza con corchete izquierdo
+        for i in range(self.__nItems):                                                                                                      # Recorrer los elementos actuales
+            if len(ans) > 1:                                                                                                                # Excepto junto al corchete izquierdo,
+                ans += ", "                                                                                                                 # Separar elementos con coma
+            j = i + self.__front                                                                                                            # Desplazamiento desde el frente
+            if j >= self.__maxSize:                                                                                                         # Se ajusta al arreglo circular
                 j -= self.__maxSize
-            ans += str(self.__que[j])  # Add string form of item
-        ans += "]"  # Close with right bracket
+            ans += str(self.__que[j])                                                                                                       # Agregar forma de cadena del elemento
+        ans += "]"                                                                                                                          # Cierra con corchete derecho
         return ans
-
-# Functions to use
-import re  # Import the regular expression library
+                                                                                                                                            # Funciones a utilizar
+import re                                                                                                                                   # Importar la biblioteca de expresiones regulares
 
 def isValid(expression):
-    # Remove spaces from the expression
+                                                                                                                                            # eliminarEspaciosDeLaExpresion
     expression = expression.replace(" ", "")
     
-    # Check if the expression is empty
+                                                                                                                                            # verificarSiLaExpresionEstaVacia
     if not expression:
         return False
     
-    # Check if parentheses are balanced (number of '(' and ')')
+                                                                                                                                            # verificarSiLosParentesisEstanBalanceados (cantidad de '(' y ')')
     if expression.count('(') != expression.count(')'):
         return False
     
-    # Regular expression to check if the syntax is valid (numbers, operators, parentheses)
+                                                                                                                                            # expresionRegularParaVerificarSiLaSintaxisEsValida (números, operadores, paréntesis)
     pattern = r"^[0-9()+\-*/.]+$"
     if not re.match(pattern, expression):
         return False
     
-    # Check that operators are in correct places (no consecutive operators, etc.)
-    # This regular expression ensures no consecutive operators or operators at the start or end
+                                                                                                                                            # verificarQueLosOperadoresEstanEnLugaresCorrectos (sin operadores consecutivos, etc.)
+                                                                                                                                            # estaExpresionRegularEvitaOperadoresConsecutivosOAlInicioOFinal
     errorPattern = r"(^[+\-*/])|([+\-*/]{2,})|([+\-*/]$)"
     if re.search(errorPattern, expression):
         return False
     
-    # If we reach here, the expression seems valid
+                                                                                                                                            # siLlegaAquiLaExpresionPareceValida
     return True
 
 def precedence(operator, operators=["|", "&", "+-", "*/%", "^", "()"]):
-    # Iterate through the operators to return the precedence value of the given operator
+                                                                                                                                            # iterarPorLosOperadoresParaDevolverElValorDePrecedenciaDelOperador
     for p, ops in enumerate(operators):
         if operator in ops:
-            return p + 1  # Return the precedence of the operator, starting from 1
+            return p + 1                                                                                                                    # devolverLaPrecedenciaDelOperadorDesdeUno
 
 def isDelimiter(char, operators=["|", "&", "+-", "*/%", "^", "()"]):
-    # Return True if the character is a delimiter, based on its precedence
+                                                                                                                                            # devolverTrueSiElCaracterEsUnDelimitadorBasadoEnSuPrecedencia
     return precedence(char) == len(operators)
 
-def nextToken(s):  # Parse the next token from the input string
-    token = ""  # The token can be an operator or an operand
-    s = s.strip()  # Remove leading and trailing spaces from the string
-    if len(s) > 0:  # If we haven't reached the end of the string
-        if precedence(s[0]):  # Check if the first character is an operator
-            token = s[0]  # The token is a single-character operator
-            s = s[1:]  # Remove the operator from the string
-        else:  # If it's an operand, take the characters up to the next operator or space
+def nextToken(s):                                                                                                                           # analizarElSiguienteTokenDeLaCadenaDeEntrada
+    token = ""                                                                                                                              # elTokenPuedeSerUnOperadorOUnoOperando
+    s = s.strip()                                                                                                                           # eliminarEspaciosALosLadosDeLaCadena
+    if len(s) > 0:                                                                                                                          # siNoSeHaLlegadoAlFinalDeLaCadena
+        if precedence(s[0]):                                                                                                                # verificarSiElPrimerCaracterEsUnOperador
+            token = s[0]                                                                                                                    # elTokenEsUnOperadorDeUnCaracter
+            s = s[1:]                                                                                                                       # eliminarElOperadorDeLaCadena
+        else:                                                                                                                               # siEsUnOperandoTomarCaracteresHastaElSiguienteOperadorOEspacio
             while len(s) > 0 and not (
                 precedence(s[0]) or s[0].isspace()
             ):
                 token += s[0]
                 s = s[1:]
-    return token, s  # Return the token and the remaining string
+    return token, s                                                                                                                         # devolverElTokenYLaCadenaRestante
 
-def postfixTranslate(formula):  # Translate an infix formula to postfix
-    if not isValid(formula): raise Exception("The expression is not valid.")  # Check if the formula is valid
-    postfix = Queue(100)  # Store the postfix expression temporarily in a queue
-    stack = Stack(100)  # Use a stack for operators while parsing the formula
-    result = []  # Store the steps for visualization
+def postfixTranslate(formula):                                                                                                              # traducirUnaFormulaInfijaAPostfija
+    if not isValid(formula): raise Exception("The expression is not valid.")                                                                # verificarSiLaFormulaEsValida
+    postfix = Queue(100)                                                                                                                    # almacenarTemporalmenteLaExpresionPostfijaEnUnaCola
+    stack = Stack(100)                                                                                                                      # usarUnaPilaParaOperadoresDuranteElAnalisis
+    result = []                                                                                                                             # almacenarLosPasosParaVisualizacion
     
-    token, formula = nextToken(formula)  # Get the first token of the formula
-    while token:  # While there are tokens to process
-        tokenPrecedence = precedence(token)  # Get the precedence of the token
-        isDelimiterToken = isDelimiter(token)  # Check if the token is a delimiter
+    token, formula = nextToken(formula)                                                                                                     # obtenerElPrimerTokenDeLaFormula
+    while token:                                                                                                                            # mientrasHayaTokensPorProcesar
+        tokenPrecedence = precedence(token)                                                                                                 # obtenerLaPrecedenciaDelToken
+        isDelimiterToken = isDelimiter(token)                                                                                               # verificarSiElTokenEsUnDelimitador
         
-        if isDelimiterToken:  # If the token is a delimiter (like parentheses)
-            if token == '(':  # If it's an opening parenthesis
-                stack.push(token)  # Push the opening parenthesis onto the stack
-            else:  # If it's a closing parenthesis
-                while not stack.isEmpty():  # Pop elements from the stack
+        if isDelimiterToken:                                                                                                                # siElTokenEsUnDelimitador (como parentesis)
+            if token == '(':                                                                                                                # siEsUnParentesisDeApertura
+                stack.push(token)                                                                                                           # apilarElParentesisDeApertura
+            else:                                                                                                                           # siEsUnParentesisDeCierre
+                while not stack.isEmpty():                                                                                                  # desapilarElementosDeLaPila
                     top = stack.pop()
-                    if top == '(':  # Until an opening parenthesis is found
+                    if top == '(':                                                                                                          # hastaEncontrarUnParentesisDeApertura
                         break
-                    else:  # Put the rest in the output queue (postfix notation)
+                    else:                                                                                                                   # ponerElRestoEnLaColaDeSalida (notacion postfija)
                         postfix.insert(top)
         
-        elif tokenPrecedence:  # If the token is an operator
-            while not stack.isEmpty():  # Check the operator on top of the stack
+        elif tokenPrecedence:                                                                                                               # siElTokenEsUnOperador
+            while not stack.isEmpty():                                                                                                      # verificarElOperadorEnLaCimaDeLaPila
                 top = stack.pop()
-                if top == '(' or precedence(top) < tokenPrecedence:  # If it's an opening parenthesis or a lower precedence operator
-                    stack.push(top)  # Push it back onto the stack
-                    break  # Stop the loop
-                else:  # If the operator on top has higher precedence, move it to the queue
+                if top == '(' or precedence(top) < tokenPrecedence:                                                                         # siEsUnParentesisOUnOperadorDeMenorPrecedencia
+                    stack.push(top)                                                                                                         # volverAApilarlo
+                    break                                                                                                                   # detenerElCiclo
+                else:                                                                                                                       # siElOperadorEnLaCimaTieneMayorPrecedencia, moverloALaCola
                     postfix.insert(top)
-            stack.push(token)  # Push the current operator onto the stack
+            stack.push(token)                                                                                                               # apilarElOperadorActual
         
-        else:  # If the token is an operand (a number)
-            postfix.insert(token)  # Directly add it to the queue
+        else:                                                                                                                               # siElTokenEsUnOperando (numero)
+            postfix.insert(token)                                                                                                           # agregarloDirectamenteALaCola
         
-        # Show the state after each iteration
+                                                                                                                                            # mostrarElEstadoDespuesDeCadaIteracion
         result.append(f"Token: {token}, Precedence: {tokenPrecedence if tokenPrecedence else 'N/A'}, Type: {'Operator' if tokenPrecedence else 'Operand'}")
         result.append(f"Stack: {stack}")
         result.append(f"Queue: {postfix}\n")
         
-        token, formula = nextToken(formula)  # Get the next token
+        token, formula = nextToken(formula)                                                                                                 # obtenerElSiguienteToken
     
-    while not stack.isEmpty():  # At the end of the input, empty the stack
-        postfix.insert(stack.pop())  # Put the remaining operators in the queue
+    while not stack.isEmpty():                                                                                                              # alFinalDeLaEntradaVaciarLaPila
+        postfix.insert(stack.pop())                                                                                                         # ponerLosOperadoresRestantesEnLaCola
     
     ans = ""
-    while not postfix.isEmpty():  # Convert the queue to a string
+    while not postfix.isEmpty():                                                                                                            # convertirLaColaEnCadena
         if len(ans) > 0:
-            ans += " "  # Separate tokens with spaces
+            ans += " "                                                                                                                      # separarTokensConEspacios
         ans += postfix.remove()
     
     result.append(f"The postfix representation of {formula} is {ans}")
     return result
 
-def postfixEvaluate(formula):  # Translate infix to postfix and evaluate the result
-    postfixSteps = postfixTranslate(formula)  # Get the steps of the conversion
-    postfixExpression = postfixSteps[-1].split()  # The final postfix expression (last item in the list)
+def postfixEvaluate(formula):                                                                                                               # traducirInfijaAPostfijaYEvaluarElResultado
+    postfixSteps = postfixTranslate(formula)                                                                                                # obtenerLosPasosDeLaConversion
+    postfixExpression = postfixSteps[-1].split()                                                                                            # laExpresionPostfijaFinal (ultimoElementoDeLaLista)
     
-    # Filter only valid numbers and operators
+                                                                                                                                            # filtrarSoloNumerosYOperadoresValidos
     validTokens = [token for token in postfixExpression if token.isdigit() or token in "|&+-*/%^"]
     
-    operandStack = Stack(100)  # Stack to store operands
+    operandStack = Stack(100)                                                                                                               # pilaParaAlmacenarOperandos
     for token in validTokens:
-        tokenPrecedence = precedence(token)  # Check if the token is an operator
+        tokenPrecedence = precedence(token)                                                                                                 # verificarSiElTokenEsUnOperador
         
-        if tokenPrecedence:  # If the token is an operator
-            right = operandStack.pop()  # Get the right operand
-            left = operandStack.pop()  # Get the left operand
+        if tokenPrecedence:                                                                                                                 # siElTokenEsUnOperador
+            right = operandStack.pop()                                                                                                      # obtenerElOperandoDerecho
+            left = operandStack.pop()                                                                                                       # obtenerElOperandoIzquierdo
             
-            # Perform the corresponding operations
-            if token == '|':  # OR operation
+                                                                                                                                            # realizarLaOperacionCorrespondiente
+            if token == '|':                                                                                                                # operacion OR
                 operandStack.push(left | right)
-            elif token == '&':  # AND operation
+            elif token == '&':                                                                                                              # operacion AND
                 operandStack.push(left & right)
-            elif token == '+':  # Addition
+            elif token == '+':                                                                                                              # suma
                 operandStack.push(left + right)
-            elif token == '-':  # Subtraction
+            elif token == '-':                                                                                                              # resta
                 operandStack.push(left - right)
-            elif token == '*':  # Multiplication
+            elif token == '*':                                                                                                              # multiplicacion
                 operandStack.push(left * right)
-            elif token == '/':  # Division
+            elif token == '/':                                                                                                              # division
                 operandStack.push(left / right)
-            elif token == '%':  # Modulus
+            elif token == '%':                                                                                                              # modulo
                 operandStack.push(left % right)
-            elif token == '^':  # Power
+            elif token == '^':                                                                                                              # potencia
                 operandStack.push(left ^ right)
-        else:  # If the token is an operand (number)
-            operandStack.push(int(token))  # Convert the token to an integer and push it
+        else:                                                                                                                               # siElTokenEsUnOperando (numero)
+            operandStack.push(int(token))                                                                                                   # convertirElTokenAEnteroYApilarlo
         
-        # Show the state after processing each token
+                                                                                                                                            # mostrarElEstadoLuegoDeProcesarCadaToken
         print(f"After processing {token}, the stack holds: {operandStack}")
     
-    print(f"Final result = {operandStack.pop()}")  # At the end of the input, print the result
+    print(f"Final result = {operandStack.pop()}")                                                                                           # alFinalDeLaEntradaMostrarElResultado
 
 if __name__ == "__main__":
-    infixExpression = input("Enter the arithmetic expression: ")  # Ask the user for input
-    startTime = time.time()  # Save the start time
-    postfixSteps = postfixTranslate(infixExpression)  # Convert the infix expression to postfix
-    print("\n".join(postfixSteps))  # Show the step-by-step process only once
-    postfixEvaluate(infixExpression)  # Evaluate the postfix expression
-    endTime = time.time()  # Save the end time
-    totalTime = endTime - startTime  # Calculate the total execution time
-    print(f"Execution time: {totalTime}")  # Show the total execution time
+    infixExpression = input("Enter the arithmetic expression: ")                                                                            # solicitarAlUsuarioUnaExpresion
+    startTime = time.time()                                                                                                                 # guardarHoraDeInicio
+    postfixSteps = postfixTranslate(infixExpression)                                                                                        # convertirLaExpresionInfijaAPostfija
+    print("\n".join(postfixSteps))                                                                                                          # mostrarElProcesoPasoAPasoSoloUnaVez
+    postfixEvaluate(infixExpression)                                                                                                        # evaluarLaExpresionPostfija
+    endTime = time.time()                                                                                                                   # guardarHoraFinal
+    totalTime = endTime - startTime                                                                                                         # calcularTiempoTotalDeEjecucion
+    print(f"Execution time: {totalTime}")                                                                                                   # mostrarTiempoTotalDeEjecucion
